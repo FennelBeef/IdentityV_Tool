@@ -1,0 +1,112 @@
+{
+    "version": "0.0.1",
+    "message": "\nIVT 是一个免费的开源软件，感谢所有贡献者的付出。\n访问项目地址以获取源码与最新版本。\n\nIVT is a FREE software.Thanks for all contributors.\nVisit the project url to get source code or lateset releases.\n\n项目地址/Project url: www.github.com/weinibuliu/IdentityV_Tool\n",
+    "controller": [
+        {
+            "name": "PC 端",
+            "type": "Win32",
+            "win32": {
+                "class_regex": ".*",
+                "window_regex": "第五人格",
+                "screencap": 2,
+                "input": 2
+            }
+        },
+        {
+            "name": "Android 模拟器",
+            "type": "Adb"
+        }
+    ],
+    "resource": [
+        {
+            "name": "PC(16:9)",
+            "path": [
+                "{PROJECT_DIR}/resource/PC(16_9)"
+            ]
+        },
+        {
+            "name": "Android(16:9)",
+            "path": [
+                "{PROJECT_DIR}/resource/PC(16_9)",
+                "{PROJECT_DIR}/resource/Android(16_9)"
+            ]
+        }
+    ],
+    "task": [
+        {
+            "name": "匹配自动准备",
+            "entry": "Start",
+            "option": [
+                "是否启用自动禁选功能",
+                "是否启用桌面通知",
+                "是否启用邮件通知"
+            ]
+        },
+        {
+            "name": "禁用测试",
+            "entry": "检测地图状态"
+        },
+        {
+            "name": "通知测试",
+            "entry": "匹配成功_桌面通知"
+        }
+    ],
+    "option": {
+        "是否启用自动禁选功能": {
+            "cases": [
+                {
+                    "name": "是",
+                    "pipeline_override": {
+                        "匹配成功_邮件通知": {
+                            "next": [
+                                "检测地图状态"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "否",
+                    "pipeline_override": {}
+                }
+            ]
+        },
+        "是否启用桌面通知": {
+            "cases": [
+                {
+                    "name": "是",
+                    "pipeline_override": {}
+                },
+                {
+                    "name": "否",
+                    "pipeline_override": {
+                        "匹配成功_桌面通知": {
+                            "action": "DoNothing"
+                        },
+                        "默认异常处理_桌面通知": {
+                            "action": "DoNothing"
+                        }
+                    }
+                }
+            ]
+        },
+        "是否启用邮件通知": {
+            "cases": [
+                {
+                    "name": "是",
+                    "pipeline_override": {}
+                },
+                {
+                    "name": "否",
+                    "pipeline_override": {
+                        "匹配成功_邮件通知": {
+                            "action": "DoNothing"
+                        },
+                        "默认异常处理_邮件通知": {
+                            "action": "DoNothing"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
